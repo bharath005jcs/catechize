@@ -1,0 +1,74 @@
+<head>
+<style>
+body
+{
+    background: url('/public/images/bg.jpg') fixed;
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+}
+</style>
+<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+<script>
+function databaseconn()
+{
+	try 
+		{
+			var password;
+			var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+			db.startTransaction();
+			x=sessionStorage.ssn;
+			y=sessionStorage.pwd;
+			var data = db.isTableExist("Staff");
+			//alert(data);
+			var password;
+			var h = db.executeSql('SELECT * FROM Staff');
+			var flag =0;
+    	    for(var k in h) 
+    	    {
+        		if (h.hasOwnProperty(k)) 
+        	    {
+           		 	var out='';
+           		 	for(var p in h[k])
+           		 	{
+           		 		 
+           				 if(p=="pwd")
+           				 {
+           					 password = h[k][p];
+           				 }
+           				 if(p=="ssn")
+           				 {
+           					 if(h[k][p]==x)
+							 {
+								 flag = 1;
+								 if(password==y)
+								 {
+									 sessionStorage.fn=h[k]["name"];
+									 window.location = "homepage.html";
+								 }
+								 else
+								 {
+									 alert("Wrong Password");
+									 window.location="loginpage.html";
+								 }
+							 }
+           				 }
+           			}
+            	}
+        	}
+    	    if(flag==0)
+    	    {
+    	    	alert ("No such User Exists" + x);
+    	    	 window.location="loginpage.html";
+    	    }
+		}
+		catch (err)
+		{
+			alert(err);
+		}
+}
+</script>
+</head>
+<body onLoad="databaseconn()">
+
+</body>

@@ -1,0 +1,178 @@
+<html>
+<head>
+
+	<script type="text/javascript" charset="utf-8" src="/public/api/rhoapi-modules.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/public/api/rhoapi-modules-ORM.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/public/js/Chart.js"></script>
+	<script>
+		function subj()
+		{
+			try {
+				
+			var rn = sessionStorage.selrn;
+			document.getElementById("heading").innerHTML = "Report For "+rn+"'s performance";
+			var productModel = Rho.ORM.addModel(function(model){
+				model.modelName("student");
+  				model.enable("sync");
+  				//model.enable("fixedSchema");
+  				model.property("name","string");
+  				model.property("rollnum","string");
+  				model.property("year","integer");
+  				model.property("password","string");
+  				model.addUniqueIndex("rollnum",["rollnum"]);
+  				model.set("partition","user");
+  				model.set("source_id","4");
+			}); 
+			var productModel = Rho.ORM.getModel("student");
+  		    
+  			var product = productModel.find("all",{
+				conditions: {"rollnum":rn},
+      			order: 'name',
+      			orderdir: 'ASC'
+    		});
+			var h = product[0].get('year');
+			var tabname = "Sem"+h;
+			var x=h;
+			//alert(x);
+			sessionStorage.studsem=h;
+			var productModel = Rho.ORM.addModel(function(model){
+				model.modelName(tabname);
+				model.enable("sync");
+				model.property("t"+x+"1","string");
+				model.property("t"+x+"2","string");
+				model.property("t"+x+"3","string");
+	 			model.property("t"+x+"4","string");
+				model.property("t"+x+"5","string");
+				model.set("partition","user");
+				model.set("source_id",x);
+			}); 
+			
+			var productModel = Rho.ORM.getModel(tabname);
+			var product = productModel.find("all");
+			//alert(product);
+			var sub = [];
+			if(product!="")
+			{
+				//alert("cmg");
+				sub[0] = product[0].get("t"+x+"1");
+				sub[1] = product[0].get("t"+x+"2");
+				sub[2] = product[0].get("t"+x+"3");
+				sub[3]= product[0].get("t"+x+"4");
+				sub[4] = product[0].get("t"+x+"5");
+			}
+			//alert(sub);
+			var productModel = Rho.ORM.addModel(function(model)
+			{
+				model.modelName("scores");
+  				model.enable("sync");
+  				model.property("Rollnum","string");
+  				model.property("Subject","string");
+  				model.property("Score","integer");
+  				model.set("partition","user");
+  				model.set("source_id","8");
+			}); 
+			var score= [];
+			for(i=0;i<5;i++)
+			{
+				var productModel = Rho.ORM.getModel("scores");
+  				var product = productModel.find("all",{
+					conditions: {"Rollnum":rn,
+								 "Subject":sub[i]}
+      			});
+      			//alert(product.length);
+      			if(product!="")
+      			{
+      				score[i]= parseInt(product[0].get('Score'));
+      			}
+      			else
+      			{
+      				score[i]= parseInt("0");
+      			}
+			} 
+			var product = productModel.find("all",{
+					conditions: {"Rollnum":rn,
+								 "Subject": "MixedQuiz"}
+      			});
+			score[i] = score[i]= parseInt(product[0].get('Score'));
+			//alert(score[i]);
+			//alert(score);
+			var pieData = [
+				{
+					value: parseInt(score[0]),
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: sub[0]
+				},
+				{
+					value:  parseInt(score[1]),
+					color: "#46BFBD",
+					highlight: "#5AD3D1",
+					label: sub[1]
+				},
+				{
+					value:  parseInt(score[2]),
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: sub[2]
+				},
+				{
+					value:  parseInt(score[3]),
+					color: "#949FB1",
+					highlight: "#A8B3C5",
+					label: sub[3]
+				},
+				{
+					value:  parseInt(score[4]),
+					color: "#4D5360",
+					highlight: "#616774",
+					label: sub[4]
+				},
+				{
+					value:  parseInt(score[5]),
+					color:"#01DF74",
+					highlight: "#01DF88",
+					label: "Mixed Quiz"
+				}
+			];
+			var ctx = document.getElementById("chart-area").getContext("2d");
+			window.myPie = new Chart(ctx).Pie(pieData);
+			var productModel = Rho.ORM.addModel(function(model){
+					model.modelName("Student_details");
+  					model.enable("sync");
+  					model.property("Rollnum","string");
+  					model.property("Num_of_arrears","integer");
+  					model.property("Arrears","string");
+  					model.property("CGPA","float");
+  					model.set("partition","user");
+  					model.set("source_id","9");
+			});
+			var product = productModel.find("all",{
+					conditions: {"Rollnum":rn}
+   			}); 
+   			document.getElementById("noa").innerHTML = product[0].get('Num_of_arrears');
+   			document.getElementById("arrs").innerHTML  = product[0].get('Arrears');
+   			document.getElementById("cgpa").innerHTML  = product[0].get('CGPA');
+			}
+			catch (err)
+			{
+				alert(err);
+			}
+		}
+	</script>
+
+</head>
+<body onload="subj()">
+<h1 align="center" id="heading"> </h1>
+<div id="canvas-holder" align="center">
+			<canvas id="chart-area" width="300" height="300"/>
+	</div>
+	<center> (i) Touch to view the subject and score</center>
+		<br>
+	<table align="center" border="1">
+		<tr> <td> Number Of Arrears </td> <td> <lable id="noa"> </lable> </td> </tr>
+		<tr> <td> Arrears </td> <td> <lable id="arrs">  </lable></td> </tr>
+		<tr> <td> CGPA  </td> <td> <lable id="cgpa"> </lable></td> </tr>
+		
+	</table>
+</body>
+</html>

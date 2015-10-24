@@ -1,0 +1,81 @@
+<html>
+<head>
+ <script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+<script>
+
+function check()
+{
+	var x = sessionStorage.name;
+    var y = sessionStorage.roll;
+    var yr = sessionStorage.year;
+    alert(x);
+	try {
+	var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+	db.startTransaction();
+	if(yr != null)
+    {
+    	alert("Student");
+    	var data = db.isTableExist("Students");
+    	if(data==false)
+    	{
+    		db.executeBatchSql('CREATE TABLE Students (name TEXT, rollnum TEXT PRIMARY KEY, year INTEGER)')  ;
+    	}
+        var d = db.executeBatchSql('INSERT INTO Students(name,rollnum,year) VALUES(?,?,?)');
+        var h = db.executeBatchSql('select count(*) from Students' );
+        for (var k in h) {
+            // use hasOwnProperty to filter out keys from the Object.prototype
+            if (h.hasOwnProperty(k)) {
+           	 var out='';
+           	 for(var p in h[k])
+           	 {
+           		 var l = h[k];
+           		 out += k+' '+ p + ': ' + h[k][p]+ '\n';
+           	 }
+           	 alert(out);
+            }
+        }
+    }
+    else if(yr == null)
+    {
+    	alert("Staff");
+    	var data = db.isTableExist("Staff");
+    	if(data==false)
+    	{
+    		db.executeBatchSql('CREATE TABLE Staff (name TEXT, ssn TEXT PRIMARY KEY)')  ;
+    	}
+        var d =db.executeBatchSql('INSERT INTO Staff(name,ssn) VALUES(s,y)');
+        var h = db.executeBatchSql('select count(*) from Staff');
+        //alert(h);
+        for (var k in h) {
+            // use hasOwnProperty to filter out keys from the Object.prototype
+             if (h.hasOwnProperty(k)) {
+           	 var out='';
+           	 for(var p in h[k])
+           	 {
+           		 var l = h[k];
+           		 out += k+' '+ p + ': ' + h[k][p]+ '\n';
+           	 }
+           	 alert(out);
+            }
+        }
+    }   
+    //window.location.assign("check.html");
+	}
+	catch(err) {
+		alert(err);
+		//window.location.assign("check.html");
+	}
+	finally
+	{
+	 	//window.location.assign("check.html");
+	}	
+}
+
+</script>
+</head>
+
+<body onLoad="check()">
+<p id="put1"> hai </p>
+<p id="put"> hello </p>
+</body>
+</html>

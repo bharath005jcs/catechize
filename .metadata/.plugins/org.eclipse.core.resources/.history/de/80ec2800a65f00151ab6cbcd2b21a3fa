@@ -1,0 +1,63 @@
+<html>
+
+<head>
+<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+<script>
+
+function database()
+{
+	var q=sessionStorage.ques;
+    var a=sessionStorage.opta;
+    var b=sessionStorage.optb;
+    var c=sessionStorage.optc;
+    var d=sessionStorage.optd;
+    var sem=sessionStorage.sem;
+    var ans=sessionStorage.ans;
+    var sub=sessionStorage.sub;
+    var tabname=sem+sub;
+    try 
+	{
+		var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+		db.startTransaction();
+		var data = db.isTableExist(tabname);
+		alert(data);
+		if(data== false)
+		{
+			var query = 'CREATE TABLE '+tabname+' (questions TEXT, opta TEXT, optb TEXT, optc TEXT, optd TEXT, answer TEXT)';
+			alert(query);
+			db.executeBatchSql(query);
+		}
+		var query = 'INSERT INTO ' +tabname+' (questions,opta,optb,optc,optd,answer) VALUES("'+q+'","'+a+'","'+b+'","'+c+'","'+d+'","'+ans+'")' ;
+    	alert(query);
+    	var d = db.executeBatchSql(query);
+    	/* var h = db.executeSql('SELECT * FROM '+tabname);
+    	    for(var k in h) 
+    	    {
+        		if (h.hasOwnProperty(k)) 
+        	    {
+           		 	var out='';
+           		 	for(var p in h[k])
+           		 	{
+           				 var l = h[k];
+           				 out += k+' '+ p + ': ' + h[k][p]+ '\n';
+           			}
+           			alert(out);
+            	}
+        	}	
+	}
+	catch (err)
+	{
+		alert(err);
+	}
+    
+}
+
+</script>
+
+</head>
+
+<body onload="database()">
+
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<html>
+
+<head>
+	
+	<title> Displaying Questions</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<script src="/public/js/bootstrap.js" type="text/javascript"> </script>
+	<script src="/public/js/bootstrap.min.js" type="text/javascript"> </script>
+	<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules-ORM.js"></script>
+	<link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">
+	<script>
+		function subj()
+		{
+			var x = sessionStorage.susn;
+			var productModel = Rho.ORM.addModel(function(model){
+				model.modelName("student");
+  				model.enable("sync");
+  				//model.enable("fixedSchema");
+  				model.property("name","string");
+  				model.property("rollnum","string");
+  				model.property("year","integer");
+  				model.property("password","string");
+  				model.addUniqueIndex("rollnum",["rollnum"]);
+  				model.set("partition","user");
+  				model.set("source_id","4");
+			}); 
+			var productModel = Rho.ORM.getModel("student");
+  		    
+  			var product = productModel.find("all",{
+				conditions: {"rollnum":x},
+      			order: 'name',
+      			orderdir: 'ASC'
+    		});
+			var h = product[0].get('year');
+			var tabname = "Sem"+h;
+			var x=h;
+			//alert(x);
+			sessionStorage.studsem=h;
+			var productModel = Rho.ORM.addModel(function(model){
+				model.modelName(tabname);
+				model.enable("sync");
+				model.property("t"+x+"1","string");
+				model.property("t"+x+"2","string");
+				model.property("t"+x+"3","string");
+	 			model.property("t"+x+"4","string");
+				model.property("t"+x+"5","string");
+				model.set("partition","user");
+				model.set("source_id",x);
+			}); 
+			var productModel = Rho.ORM.getModel(tabname);
+			var product = productModel.find("all");
+			//alert(product);
+			if(product!="")
+			{
+				//alert("cmg");
+				document.getElementById("sub1").innerHTML = product[0].get("t"+x+"1");
+				document.getElementById("sub2").innerHTML = product[0].get("t"+x+"2");
+				document.getElementById("sub3").innerHTML = product[0].get("t"+x+"3");
+				document.getElementById("sub4").innerHTML = product[0].get("t"+x+"4");
+				document.getElementById("sub5").innerHTML = product[0].get("t"+x+"5");
+				document.getElementById("mix").innerHTML = "MixedQuiz";
+			}
+		}
+		function onsub()
+		{
+			x = document.forms["selsub"]["subj"].value;
+			sessionStorage.selsub = x;
+			//alert(x);
+			if(x!="MixedQuiz")
+			{
+				//alert("cmg");
+				window.location.replace("verify.html");
+				return false;
+			}
+			else
+			{
+				
+				window.location.replace("verify.html");
+				return false;
+			}	
+		}
+	</script>
+	<style>
+		body
+		{
+    		background: url('/public/images/bg.jpg') fixed;
+    		background-size: cover;
+   		 	padding: 0;
+    		margin: 0;
+    		color: white;
+		}
+	</style>
+</head>
+
+<body onLoad="subj()">
+	<br> <br><br> <br>
+	<h1> <font color="white"> <center style="font-family:Georgia"> Select Subject   </center> </font> </h1> 
+	<br> <br>
+	<form onsubmit="return onsub()" style="color:black" name="selsub">
+		<div align="center">
+			<select id="subj" name="subj">
+				<option id="sub1">  </option>
+				<option id="sub2">  </option>
+				<option id="sub3">  </option>
+				<option id="sub4">  </option>
+				<option id="sub5">  </option>
+				<option id="mix"></option>
+			</select> <br> <br>
+			<input type="submit" class="btn btn-success" />
+	    </div>
+	</form>
+</body>
+
+</html>

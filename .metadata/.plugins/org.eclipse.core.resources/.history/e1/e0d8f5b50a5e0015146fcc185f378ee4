@@ -1,0 +1,94 @@
+function myFn() 
+{
+    var x = document.forms["regForm"]["name"].value;
+    var y = document.forms["regForm"]["id"].value;
+    var yr = document.forms["regForm"]["Semester"].value;
+    var p = document.forms["regForm"]["pwd"].value;
+    var cp = document.forms["regForm"]["cpwd"].value;
+    if (x == null || x == "") {
+        alert("<h2>Enter Name</h2>");
+        return false;
+       }
+    if (y == null || y == "") {
+        alert("<h2>Enter Unique Id \n Register Number if student \n SSN if staff</h2>");
+        return false;
+    }
+    if(y.length<6)
+    {
+    	alert("<h2>Unique id too short</h2>");
+    	return false;
+    }
+    if(p!=cp || p == "" || cp == "")
+    {
+    	if(p!=cp)
+    	{
+    		alert("<h2>Passwords Donot Match</h2")
+			p.focus();
+    		return false;
+    	}
+    	if(p == "")
+    	{
+    		alert("<h2>Enter Password</h2")
+			p.focus();
+    		return false;
+    	}
+    	if(cp == "")
+    	{
+    		alert("<h2>Re-Enter Passwords</h2")
+			cp.focus();
+    		return false;
+    	}
+    }	
+    else 
+    {
+    	var decimal=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;  
+    	if(p.value.match(decimal))   
+    	{   
+    		//alert('Correct, try another...')  
+    		//return true;  
+    	}  
+    	else  
+    	{   
+    	alert('Password Must Contain atleat 8 Charecters. Atleast One Upper Case, One Lower Case, A number and a special charecter');  
+    	return false;  
+    	}
+    }
+    if(document.regForm.who.checked != true && document.regForm.who1.checked != true  )
+    {
+    	alert("<h2>Check one check box \n Either Student or Staff</h2>");
+    	return false;
+    }
+    if(document.regForm.who.checked == true && document.regForm.who1.checked == true  )
+    {
+    	alert("<h2>Check Only one check box \n Either Student or Staff</h2>");
+    	return false;
+    }
+    if(document.regForm.who.checked == true)
+    {
+    	if(yr=="none")
+    	{
+    		alert("<h2>Select a year</h2>");
+    		return false;
+    	}
+    }
+    
+    if (x != null || x != "") 
+    {	
+    	if(document.regForm.who.checked==true && yr!="none")
+    	{
+    		sessionStorage.name=x;
+    		sessionStorage.roll=y;
+    		sessionStorage.year=yr;
+    		return true;
+    	}
+    	if(document.regForm.who1.checked==true)
+    	{
+    		sessionStorage.name=x;
+    		sessionStorage.roll=y;
+    		sessionStorage.year=null;
+    		return true;
+    	}
+    	return false;
+    }
+}
+

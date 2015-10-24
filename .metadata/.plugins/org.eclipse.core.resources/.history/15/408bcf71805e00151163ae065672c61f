@@ -1,0 +1,69 @@
+function validateForm() 
+{
+    var x = document.forms["myForm"]["fname"].value;
+    var y = document.forms["myForm"]["pwd"].value;
+    if (x == ""  || y == "") 
+    {
+    	if(x=="")
+    	{
+        	alert("Enter UserName");
+        	return false;
+      	}
+   		if (y == "") 
+   		{
+        	alert("Enter Password");
+        	return false;
+    	}
+	}
+	else
+	{
+		try 
+		{
+			var password;
+			var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+			db.startTransaction();
+			db.startTransaction();
+			//var query = ";
+			//alert(query);
+			var data = db.isTableExist("Staff");
+			alert(data);
+			var h = db.executeSql('SELECT * FROM Staff');
+			alert(h[0]["name"]);
+    	    for(var k in h) 
+    	    {
+        		if (h.hasOwnProperty(k)) 
+        	    {
+           		 	var out='';
+           		 	for(var p in h[k])
+           		 	{
+           				 if(p=="pwd")
+           				 {
+           					 password = h[k][p];
+           					 alert(password);
+           				 }
+           				 if(p=="ssn")
+           				 {
+           					 if(h[k][p])==x)
+							 {
+								 if(password==y)
+								 {
+									 //return true;
+								 }
+								 else
+								 {
+									 alert("Wrong Password");
+									 return false;
+								 }
+							 }
+           				 }
+           			}
+            	}
+        	}
+		}
+		catch (err)
+		{
+			alert(err);
+		}
+		return false;
+	}
+}

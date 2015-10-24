@@ -1,0 +1,134 @@
+<html>
+<head>
+
+<style>
+body
+{
+    background: url('/public/images/bg.jpg')fixed;
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+}
+</style>
+
+<script type="text/javascript" charset="utf-8" src="/public/api/rhoapi-modules.js"></script>
+<script type="text/javascript" charset="utf-8" src="/public/api/rhoapi-modules-ORM.js"></script>
+
+<script>
+function check()
+{
+	var x = sessionStorage.name;
+    var y = sessionStorage.roll;
+    var yr = sessionStorage.year;
+    var p = sessionStorage.pwd;
+	try 
+	{
+		if(yr == "null")
+	    {
+    		//staff
+    		
+    		var productModel = Rho.ORM.addModel(function(model){
+				model.modelName("staff");
+  				model.enable("sync");
+  				model.property("name","string");
+  				model.property("ssn","string");
+  				model.property("password","string");
+  				model.addUniqueIndex("ssn",['ssn']);
+  				model.set("partition","user");
+  				model.set("source_id","2");
+			}); 
+			
+			//alert("cmg");
+    		var productModel = Rho.ORM.getModel("staff");
+    		var product = productModel.find("all", { 
+    			conditions: {ssn:y} 
+    		});
+    		if(product.length==0)
+    		{
+    			//alert(productModel);
+    			var product = productModel.create({
+  					name: x,
+  					ssn: y,
+  					password:p
+  				});
+  				 var productModel = Rho.ORM.getModel("staff");
+  			
+  				 var product = productModel.find("all",{
+					conditions: {"name":x},
+      				order: 'name',
+      				orderdir: 'DESC'
+    			});
+  				for(i in product)
+  				{
+					alert(product[i].get('name')+" is Inserted");
+				} 
+			}
+			else
+			{
+				alert("User Already Exists");
+			}
+				window.location="FirstScreen.html";
+    	}       
+		else 
+	    {
+	    	//student
+	    	var productModel = Rho.ORM.addModel(function(model){
+				model.modelName("student");
+  				model.enable("sync");
+  				//model.enable("fixedSchema");
+  				model.property("name","string");
+  				model.property("rollnum","string");
+  				model.property("year","integer");
+  				model.property("password","string");
+  				model.addUniqueIndex("rollnum",["rollnum"]);
+  				model.set("partition","user");
+  				model.set("source_id","4");
+			}); 
+			
+			//alert("cmg");
+    		var productModel = Rho.ORM.getModel("student");
+    		var product = productModel.find("all", { 
+    			conditions: {rollnum:y} 
+    			});
+    		if(product.length==0)
+    		{
+    			//alert(productModel);
+    			var product = productModel.create({
+  					name: x,
+  					rollnum: y,
+  					year: yr,
+  					password:p
+  				});
+  				var productModel = Rho.ORM.getModel("student");
+  		    
+  				var product = productModel.find("all",{
+					conditions: {"name":x},
+      				order: 'name',
+      				orderdir: 'DESC'
+    			});
+  				alert(product[0].get('name')+" is inserted"); 
+  			}
+  			else
+  			{
+  				alert("User Already Registerd");
+  			}
+			
+    	}
+    	window.location="FirstScreen.html";
+	}
+	catch(err) 
+	{
+		//alert(err);
+		//alert("Error Occoured, Try Again \n Your Error : "+ err);
+		window.location="FirstScreen.html";
+	}
+}
+</script>
+
+</head>
+
+<body onLoad="check()">
+
+</body>
+
+</html>

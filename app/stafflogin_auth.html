@@ -1,0 +1,71 @@
+<head>
+<style>
+body
+{
+    background: url('/public/images/bg.jpg') fixed;
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+}
+</style>
+<script type="text/javascript" charset="utf-8" src="/public/api/rhoapi-modules.js"></script>
+<script type="text/javascript" charset="utf-8" src="/public/api/rhoapi-modules-ORM.js"></script>
+<script>
+function databaseconn()
+{
+	x=sessionStorage.ssn;
+    y=sessionStorage.pwd;
+    try
+    {
+    var name; 
+    var pwd;
+    var ssn;
+   	var productModel = Rho.ORM.addModel(function(model){
+				model.modelName("staff");
+  				model.enable("sync");
+  				model.property("name","string");
+  				model.property("ssn","string");
+  				model.property("password","string");
+  				model.set("partition","user");
+  				model.set("source_id","2");
+			}); 
+		//alert("cmg");
+    	var productModel = Rho.ORM.getModel("staff");
+		var product = productModel.find("all",{
+			conditions: {"ssn":x},
+    	});
+    	if(product!="")
+    	{
+    		pwd=product[0].get('password');
+			name=product[0].get('name');
+			ssn=product[0].get('ssn'); 
+			//alert(name);
+			if(pwd==y)
+			{
+				sessionStorage.fn=name;
+				alert(name+ " Sucessfully Logged In");
+				window.location="homepage.html";
+			}
+			else
+			{
+				alert("Password is Wrong");
+				window.location="loginpage.html";
+			}
+		}
+		else
+		{
+			alert("No Such User Exists");
+			window.location="loginpage.html";
+		}
+		
+    }
+    catch(err)
+    {
+    	alert(err);
+    }
+}
+</script>
+</head>
+<body onLoad="databaseconn()">
+
+</body>

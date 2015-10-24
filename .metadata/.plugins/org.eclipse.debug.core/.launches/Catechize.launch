@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="rhogenwizard.launcher.rhodesApp">
+<stringAttribute key="aemuname" value="New"/>
+<stringAttribute key="aversion" value="3.0"/>
+<stringAttribute key="build" value="local"/>
+<booleanAttribute key="clean" value="true"/>
+<stringAttribute key="ipversion" value="iphone"/>
+<stringAttribute key="platform" value="android"/>
+<stringAttribute key="project_name" value="catechize"/>
+<booleanAttribute key="rebuild" value="false"/>
+<booleanAttribute key="trace" value="false"/>
+<stringAttribute key="type_symulator" value="RhoSimulator"/>
+</launchConfiguration>

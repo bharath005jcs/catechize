@@ -1,0 +1,91 @@
+<html>
+<head>
+
+	<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules-ORM.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">
+<script>
+
+function calcscore()
+{
+	try 
+	{ 
+		var x = sessionStorage.selsub;
+		var rn = sessionStorage.susn;
+		var productModel = Rho.ORM.addModel(function(model)
+		{
+			model.modelName("answers");
+  			model.enable("sync");
+  			model.property("Rollnum","string");
+  			model.property("Subject","string");
+  			model.property("Question","string");
+  			model.property("Status","string");
+  			model.set("partition","user");
+  			model.set("source_id","6");
+		}); 
+    	var productModel = Rho.ORM.getModel("answers");
+    	var product = productModel.find("all",{
+			conditions: {"Rollnum":rn,
+						"Subject":x,
+						"Status":"true"},
+	    });
+	   var sc = product.length*20;
+	   document.getElementById("score").innerHTML  = " Your Score In "+x+"is <br>"+sc+"%";
+	   var score= product.length;
+	   var productModel = Rho.ORM.addModel(function(model)
+		{
+			model.modelName("scores");
+  			model.enable("sync");
+  			model.property("Rollnum","string");
+  			model.property("Subject","string");
+  			model.property("Score","integer");
+  			model.set("partition","user");
+  			model.set("source_id","8");
+		}); 
+		var product = productModel.create({
+  				Rollnum: rn,
+  				Subject: x,
+  				Score: score
+  			});
+  		var productModel = Rho.ORM.getModel("scores");
+  		 var product = productModel.find("all",{
+				conditions: {"Rollnum":rn},
+      			
+    		});
+  		for(var i=0;i<product.length;i++)
+  		{
+  			//product[i].destroy();
+  			alert(product[i].get("Rollnum") +"  "+ product[i].get('Subject') +"   "+ product[i].get('Score'));
+  		}
+    }
+    catch(err)
+    {
+    	alert(err);
+    }
+}
+</script>
+<style>
+body
+	{
+	    background: url('../../public/images/bg.jpg') fixed;
+	    background-size: cover;
+	    padding: 0;
+	    margin: 0;
+	    color: white;
+	}
+</style>
+</head>
+
+<body onload="calcscore()">
+<br>
+<br> 
+<br>
+<br>
+<br> 
+<br>
+<br>
+<h1 align="center" id="score">  </h1><br>
+<div  align="center"> <a href="FirstScreen.html" class="btn btn-info"> Logout </a> </div>
+</body>
+</html>

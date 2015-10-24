@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move &apos;Jellyfish.jpg&apos; to &apos;public&apos;" description="Move &apos;Jellyfish.jpg&apos; to &apos;public&apos;" destination="public" element1="public/images/android/Jellyfish.jpg" element2="public/images/android/Koala.jpg" flags="7" id="org.eclipse.ltk.core.refactoring.move.resources" resources="2" stamp="1437465192583" updateReferences="true"/>
+</session>

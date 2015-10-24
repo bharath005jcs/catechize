@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html">
+  <title>Horizontal Application Form - Template Monster Demo</title>
+  <meta name="author" content="Jake Rocheleau">
+ 
+  <link rel="stylesheet" type="text/css" media="all" href="/public/css/styles.css">
+  <link rel="stylesheet" type="text/css" media="all" href="/public/css/switchery.min.css">
+  <script type="text/javascript" src="../../public/js/switchery.min.js"></script>
+  <link rel="stylesheet" type="text/css" media="all" href="../../public/css/alert.css">
+  <script type="text/javascript" src="../../public/js/alert.js"></script>
+	
+<script type="text/javascript" src="/public/js/validate.js"></script>
+  <script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+</head>
+
+<body>
+  <div id="wrapper">
+  
+  
+  <form name="regForm" action="check.html" method="post" onSubmit="return myFn()">
+  <div class="col-2">
+    <label>
+      Name
+      <input placeholder="What is your full name?" id="name" name="name" tabindex="1">
+    </label>
+  </div>
+  <div class="col-2">
+    <label>
+      Unique Id 
+      <input placeholder="Your Regno or SSN ?" id="company" name="id" tabindex="2">
+    </label>
+  </div>
+   <div class="col-2">
+    <label>
+      Password
+      <input placeholder="Password" type="password" id="company" name="pwd" tabindex="3">
+    </label>
+  </div>
+  <div class="col-1">
+    <label>
+      Confirm Password
+      <input placeholder="Re-enter Password" type="password" id="company" name="cpwd" tabindex="3">
+    </label>
+  </div>
+  <div class="col-3">
+    <label>
+      Semester: (if student)
+      <select tabindex="5" name="Semester">
+      	<option value="none">--Select--</option>
+        <option value="1">I</option>
+        <option value="2">II</option>
+        <option value="3">III</option>
+        <option value="4">IV</option>
+        <option value="5">V</option>
+        <option value="6">VI</option>
+        <option value="7">VII</option>
+        <option value="8">VIII</option>
+      </select>
+    </label>
+  </div>
+  
+  
+  <div class="col-4">
+    <label>Student?</label>
+    <center style="position:relative; margin-bottom:8px;"><input type="checkbox" name="who" class="js-switch"></center>
+  </div>
+  <div class="col-4 switch">
+    <label>Staff??</label>
+    <center style="position:relative;margin-bottom:8px;"><input type="checkbox" name="who1" class="js-switch"></center>
+  </div>
+  
+  <div class="col-submit">
+    <button class="submitbtn">Submit Form</button>
+  </div>
+  
+  </form>
+  </div>
+<script type="text/javascript">
+var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+elems.forEach(function(html) {
+  var switchery = new Switchery(html);
+});
+</script>
+</body>
+</html>

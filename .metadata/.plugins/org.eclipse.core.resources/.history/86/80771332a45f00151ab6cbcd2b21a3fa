@@ -1,0 +1,42 @@
+<html>
+
+<head>
+<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+<script>
+
+function database
+{
+	var q=sessionStorage.ques;
+    var a=sessionStorage.opta;
+    var b=sessionStorage.optb;
+    var c=sessionStorage.optc;
+    var d=sessionStorage.optd;
+    var sem=sessionStorage.sem;
+    var ans=sessionStorage.ans;
+    var sub=sessionStorage.sub;
+    var tabname=sem+sub;
+    try 
+	{
+		var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+		db.startTransaction();
+		var data = db.isTableExist(tablename);
+		if(data== false)
+		{
+			var query = 'CREATE TABLE '+tabname+' (questions TEXT, opta TEXT, optb TEXT, optc TEXT, optd TEXT, answer TEXT,	
+	}
+	catch (err)
+	{
+		alert(err);
+	}
+    
+}
+
+</script>
+
+</head>
+
+<body onload="database()">
+
+</body>
+
+</html>

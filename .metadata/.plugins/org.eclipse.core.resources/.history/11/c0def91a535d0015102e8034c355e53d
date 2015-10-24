@@ -1,0 +1,74 @@
+function  noCommitDrop()
+{
+ var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+  db.startTransaction();
+  db.executeBatchSql('DROP TABLE IF EXISTS Employee; CREATE TABLE Employee(x INTEGER, y TEXT)')  ;
+ db.commitTransaction();
+ db.startTransaction();
+ db.destroyTable('Employee');
+ var data=db.isTableExist('Employee');
+ alert(data);
+
+}
+
+function  checkNoCommitDrop()
+{
+  var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+  var value=db.isTableExist('Employee');
+ var data=db.isTableExist('Employee');
+ alert(data);
+ if(data==true)
+ {
+ 	alert("No");
+ }
+ else
+ {
+	 alert("Yes");
+ }
+
+}
+
+function  noCommitCreate(){
+
+ var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+ db.startTransaction();
+ db.executeBatchSql('DROP TABLE IF EXISTS Employees; CREATE TABLE Employees(x INTEGER, y TEXT)')  ;
+ db.destroyTable('Employee');
+ var data=db.isTableExist('Employees');
+ 
+}
+
+function  checkNoCommitCreate(){
+	//alert("cmg");
+  var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+  var data =db.isTableExist('Employees');
+  if(data==true)
+  {
+  	alert("Yes");
+  }
+  else
+  {
+ 	 alert("No");
+  }
+
+
+ }	
+ 
+function batchArgs()
+{
+ var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+ db.executeBatchSql('DROP TABLE IF EXISTS items; CREATE TABLE t27 (x INTEGER, y TEXT); INSERT INTO t27(x,y) VALUES(?,?)',[10,'ten'],function(tx, result) {}, null); 
+ document.getElementById('db-results').innerHTML = '';  
+ db.transaction(function(tx) {  
+   tx.executeSql("SELECT * FROM Items", [], function(tx, result) {  
+     for (var i = 0, item = null; i < result.rows.length; i++) {  
+       item = result.rows.item(i);  
+       document.getElementById('db-results').innerHTML +=   
+       '<li>' +    
+       '<a href="#" onclick="fnDbDeleteRecord('+item['ID']+')">[Delete]</a>' +  
+       ' ' + item['ScannedData'] +  
+       '</li>';  
+     }  
+   });  
+ });  
+}  

@@ -1,0 +1,53 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="/public/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+
+<body>
+  <div class="container">
+    <section class="register">
+      <h1>Registration</h1>
+      <form method="post" action="index.html">
+      <div class="reg_section personal_info">
+      <h3>Your Personal Information</h3>
+      <input type="text" name="username" value="" placeholder="Name">
+      <input type="text" name="email" value="" placeholder="Unique Id">
+      </div>
+      <div class="reg_section password">
+      <h3>Your Password</h3>
+      <input type="password" name="password" value="" placeholder="Your Password">
+      <input type="password" name="confirm" value="" placeholder="Confirm Password">
+      </div>
+      <div class="reg_section password"> 
+
+      <h3>Year (if student) </h3>
+      <select>
+        <option value="">I </option>
+        <option value="">II</option>
+        <option value="">III</option>
+        <option value="">IV</option>
+      </select>
+      <div class="reg_section password">
+      <h3>I am a </h3>
+      <div>
+      
+      	<p> 
+      		<input type="radio" name="iam" /> Staff
+      	</p> 
+      </div>
+      <div>
+      	<p>
+      		<input type="radio" name="iam" /> Student
+      	</p>
+      </div>
+      
+      <p class="submit"><input type="submit" name="commit" value="Sign Up"></p>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

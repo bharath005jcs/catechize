@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;JS_SyncEngineAPITest/stafflogin_auth.js&apos; to &apos;stafflogin_auth.html&apos;" description="Rename resource &apos;stafflogin_auth.js&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="stafflogin_auth.js" name="stafflogin_auth.html" stamp="1442634195886" updateReferences="true"/>
+</session>

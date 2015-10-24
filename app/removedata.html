@@ -1,0 +1,57 @@
+<html>
+
+<head>
+
+	<link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">
+	<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules-ORM.js"></script>
+	<script>
+	
+		window.onload = function(){
+			var productModel = Rho.ORM.addModel(function(model)
+			{
+					model.modelName("answers");
+  					model.enable("sync");
+  					model.property("Rollnum","string");
+  					model.property("Subject","string");
+  					model.property("Question","string");
+  					model.property("Status","string");
+  					model.set("partition","user");
+  						model.set("source_id","6");
+			}); 
+			var productModel = Rho.ORM.getModel("answers");
+			var product = productModel.find("all");
+			alert(product.length);
+			for(var i=0;i<product.length;i++)
+			{
+				product[i].destroy();
+			}	
+			var productModel = Rho.ORM.addModel(function(model)
+			{
+					model.modelName("scores");
+  					model.enable("sync");
+  					model.property("Rollnum","string");
+  					model.property("Subject","string");
+  					model.property("Score","integer");
+  					model.set("partition","user");
+  					model.set("source_id","8");
+			});
+			var productModel = Rho.ORM.getModel("scores");
+			var product2 = productModel.find("all");
+			alert(product2.length);
+			for(var i=0;i<product2.length;i++)
+			{
+				product2[i].destroy();
+			}	
+			
+				
+		}
+	
+	</script>
+	
+</head>
+<body>
+
+</body>
+
+</html>

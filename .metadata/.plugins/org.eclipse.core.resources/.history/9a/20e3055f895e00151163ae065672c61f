@@ -1,0 +1,93 @@
+<html>
+<head>
+<style>
+body
+{
+    background: url('/public/images/bg.jpg') fixed;
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+}
+</style>
+	<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+<script>
+function check()
+{
+	var x = sessionStorage.name;
+    var y = sessionStorage.roll;
+    var yr = sessionStorage.year;
+    var p = sessionStorage.pwd;
+	try 
+	{
+		var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+		db.startTransaction();
+		if(yr == "null")
+	    {
+    		//alert("Staff");
+    		var data = db.isTableExist("Staff");
+    		//alert(data);
+    		if(data==false)
+    		{
+    			db.executeBatchSql('CREATE TABLE Staff(name TEXT, ssn TEXT PRIMARY KEY,pwd TEXT)')  ;
+    		}
+    		var query = 'INSERT INTO Staff(name,ssn,pwd) VALUES("'+x+'","'+y+'","'+p+'")' ;
+    		//alert(query);
+    	    var d = db.executeBatchSql(query);
+    	    /*var h = db.executeSql('SELECT * FROM Staff');
+    	    for(var k in h) 
+    	    {
+        		if (h.hasOwnProperty(k)) 
+        	    {
+           		 	var out='';
+           		 	for(var p in h[k])
+           		 	{
+           				 var l = h[k];
+           				 out += k+' '+ p + ': ' + h[k][p]+ '\n';
+           			}
+           			alert(out);
+            	}
+        	}*/
+    	}       
+		else 
+	    {
+	    	alert("Student");
+	    	var data = db.isTableExist("Students");
+	    	alert(data);
+	    	if(data==false)
+	    	{
+    			db.executeBatchSql('CREATE TABLE Students (name TEXT, rollnum TEXT PRIMARY KEY, year INTEGER,pwd TEXT)')  ;
+	    	}
+	    	var query = 'INSERT INTO Students(name,rollnum,year,pwd) VALUES("'+x+'","'+y+'","'+yr+'","'+p+'")' ;
+    		//alert(query);
+    	    var d = db.executeBatchSql(query);
+       		/*var h = db.executeSql('select * from Students' );
+        	for (var k in h) 
+        	{
+           		if (h.hasOwnProperty(k)) 
+           		{
+           	 		var out='';
+           	 		for(var p in h[k])
+           	 		{
+           				 var l = h[k];
+           				 out += k+' '+ p + ': ' + h[k][p]+ '\n';
+           			}
+           	 		alert(out);
+            	}
+        	}
+    	}*/
+    	window.location="FirstScreen.html";
+	}
+	catch(err) 
+	{
+		window.location="index.html";
+	}
+}
+
+</script>
+</head>
+
+<body onLoad="check()">
+<p id="put1"> hai </p>
+<p id="put"> hello </p>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<html>
+
+<head>
+<style>
+	body
+	{
+	    //background: url('../../public/images/bg.jpg') fixed;
+	    background-size: cover;
+	    padding: 0;
+	    margin: 0;
+	}
+</style>
+	<link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">
+	<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules-ORM.js"></script>
+	
+	<script>
+		function shuffle()
+		{
+			var arr =[];
+			while(arr.length<4)
+			{
+				var rn = Math.ceil(Math.random()*4);
+				var found = false ;
+				for(var i=0;i<arr.length;i++)
+				{
+					if(arr[i]==rn) { found = true;break;}
+				}
+				if(!found)arr[arr.length]=rn;
+			}
+			return arr;
+		}
+		function crctans(ans)
+		{
+			//alert(ans);
+			if(ans=="a")
+			{
+				return "Option_A";
+			}
+			else if(ans=="b")
+			{
+				return "Option_B";
+			}
+			else if(ans=="c")
+			{
+				return "Option_C";
+			}
+			else if(ans=="d")
+			{
+				return "Option_D";
+			}
+		}
+		
+		var	COUNTER_START = 30;
+		function tick () {
+		if (document.getElementById ('counter').firstChild.data > 0) {
+		document.getElementById ('counter').firstChild.data = document.getElementById ('counter').firstChild.data - 1
+		setTimeout ('tick()', 1000)
+		} else {
+			alert("Timeout");
+			window.location.assign("score.html");
+		}
+}
+		
+		function loada()
+		{	
+			/*var t = document.createTextNode (COUNTER_START);
+			var p = document.createElement ('P');
+			p.appendChild (t);
+			p.setAttribute ('id', 'counter');
+			var body = document.getElementsByTagName ('BODY')[0];
+			var firstChild = body.getElementsByTagName ('*')[0];
+			body.insertBefore (p, firstChild);*/
+			document.getElementById("counter").innerHTML = COUNTER_START;
+			//tick();
+			var x = sessionStorage.selsub;
+			var sem = sessionStorage.studsem;
+			var id = sessionStorage.id;
+			document.getElementById("subject").innerHTML = x;
+			tabname = x;
+			//alert(tabname);
+			var productModel = Rho.ORM.addModel(function(model){
+				model.modelName(tabname);
+	  			model.enable("sync");
+	  			model.property("Question","string");
+	  			model.property("Option_A","string");
+	  			model.property("Option_B","string");
+	 			model.property("Option_C","string");
+	  			model.property("Option_D","string");
+	  			model.property("Answer","string");
+	  			model.property("Expln","string");
+	  			model.set("partition","user");
+	  			model.set("source_id",id);
+			});
+			var productModel = Rho.ORM.getModel(tabname);
+			var product = productModel.find("all");
+			var arr = [] ;
+			//alert(product.length);
+			for(var i=0;i<product.length;i++)
+			{
+			//alert(product[i].get("Question"));
+			}
+			if(product.length>=5)
+			{
+				while(arr.length<5)
+				{
+					var rn = Math.ceil(Math.random()*product.length);
+					var found = false ;
+					for(var i=0;i<arr.length;i++)
+					{
+						if(arr[i]==rn) { found = true;break;}
+					}
+					if(!found)arr[arr.length]=rn;
+				}
+			}
+			else
+			{
+				alert("Quiz Under Construction");
+				window.location="question.html";
+			}
+			//alert(arr);
+			var ch = ['Option_A','Option_B','Option_C','Option_D'];
+			var a = shuffle();
+			var productModel = Rho.ORM.getModel(tabname);
+			var product = productModel.find("all");
+    		document.getElementById("one").innerHTML = product[arr[0]-1].get("Question");
+    		document.getElementById("onea").innerHTML = product[arr[0]-1].get(ch[a[0]-1]);
+    		document.getElementById("oneb").innerHTML = product[arr[0]-1].get(ch[a[1]-1]);
+    		document.getElementById("onec").innerHTML = product[arr[0]-1].get(ch[a[2]-1]);
+    		document.getElementById("oned").innerHTML = product[arr[0]-1].get(ch[a[3]-1]);
+    		var ans_opt_1 = crctans(product[arr[0]-1].get("Answer"));
+    		sessionStorage.ques_1=product[arr[0]-1].get("Question");
+    		sessionStorage.ans_1 = product[arr[0]-1].get(ans_opt_1);
+			//alert(ans_1);    		
+    		var a = shuffle();
+    		
+    		document.getElementById("two").innerHTML = product[arr[1]-1].get("Question");
+    		document.getElementById("twoa").innerHTML = product[arr[1]-1].get(ch[a[0]-1]);
+    		document.getElementById("twob").innerHTML = product[arr[1]-1].get(ch[a[1]-1]);
+    		document.getElementById("twoc").innerHTML = product[arr[1]-1].get(ch[a[2]-1]);
+    		document.getElementById("twod").innerHTML = product[arr[1]-1].get(ch[a[3]-1]);
+    		var ans_opt_2 = crctans(product[arr[1]-1].get("Answer"));
+    		sessionStorage.ques_2=product[arr[1]-1].get("Question");
+    		sessionStorage.ans_2 = product[arr[1]-1].get(ans_opt_2);
+    		var a = shuffle();
+    		
+    		document.getElementById("three").innerHTML = product[arr[2]-1].get("Question");
+    		document.getElementById("threea").innerHTML = product[arr[2]-1].get(ch[a[0]-1]);
+    		document.getElementById("threeb").innerHTML = product[arr[2]-1].get(ch[a[1]-1]);
+    		document.getElementById("threec").innerHTML = product[arr[2]-1].get(ch[a[2]-1]);
+    		document.getElementById("threed").innerHTML = product[arr[2]-1].get(ch[a[3]-1]);
+    		var ans_opt_3 = crctans(product[arr[2]-1].get("Answer"));
+    		sessionStorage.ques_3=product[arr[2]-1].get("Question");
+    		sessionStorage.ans_3 = product[arr[2]-1].get(ans_opt_3); 
+    		var a = shuffle();
+    		
+    		document.getElementById("four").innerHTML = product[arr[3]-1].get("Question");
+    		document.getElementById("foura").innerHTML = product[arr[3]-1].get(ch[a[0]-1]);
+    		document.getElementById("fourb").innerHTML = product[arr[3]-1].get(ch[a[1]-1]);
+    		document.getElementById("fourc").innerHTML = product[arr[3]-1].get(ch[a[2]-1]);
+    		document.getElementById("fourd").innerHTML = product[arr[3]-1].get(ch[a[3]-1]);
+    		var ans_opt_4 = crctans(product[arr[3]-1].get("Answer"));
+    		sessionStorage.ques_4=product[arr[3]-1].get("Question");
+    		sessionStorage.ans_4 = product[arr[3]-1].get(ans_opt_4);
+    		var a = shuffle();
+    		
+    		document.getElementById("five").innerHTML = product[arr[4]-1].get("Question");
+    		document.getElementById("fivea").innerHTML = product[arr[4]-1].get(ch[a[0]-1]);
+    		document.getElementById("fiveb").innerHTML = product[arr[4]-1].get(ch[a[1]-1]);
+    		document.getElementById("fivec").innerHTML = product[arr[4]-1].get(ch[a[2]-1]);
+    		document.getElementById("fived").innerHTML = product[arr[4]-1].get(ch[a[3]-1]);
+    		var ans_opt_5 = crctans(product[arr[4]-1].get("Answer"));
+    		sessionStorage.ques_5=product[arr[4]-1].get("Question");
+    		sessionStorage.ans_5 = product[arr[4]-1].get(ans_opt_5);
+		}
+	</script>
+	
+		<script src="/public/js/bootstrap.js" type="text/javascript"> </script>
+		<script src="/public/js/bootstrap.min.js" type="text/javascript"> </script>
+</head>
+
+<body onload="loada()">
+<h3  align="right" style="color:red" id="counter"></h3>
+<h1 align="center" id="subject"> </h1>
+	<form onsubmit="return answerdb()" id="ques">
+	 1)	<label id="one"> </label><br> 
+			<input type="radio" name="one" value="a"> <label  id="onea"> </label> </input> <br>
+			<input type="radio" name="one" value="b"> <label  id="oneb"> </label> </input> <br>
+			<input type="radio" name="one" value="c"> <label  id="onec"> </label> </input> <br>
+			<input type="radio" name="one" value="d"> <label  id="oned"> </label> </input> <br>
+			<br> <br>
+	2)	<label id="two"> </label><br>
+			<input type="radio" name="two" value="a"> <label  id="twoa"> </label> </input><br>
+			<input type="radio" name="two" value="b"> <label  id="twob"> </label> </input><br>
+			<input type="radio" name="two" value="c"> <label  id="twoc"> </label> </input><br>
+			<input type="radio" name="two" value="d"> <label  id="twod"> </label> </input><br>
+			<br><br>
+	3)	<label id="three"> </label><br>
+			<input type="radio" name="three" value="a"> <label  id="threea"> </label> </input> <br>
+			<input type="radio" name="three" value="b"> <label  id="threeb"> </label> </input><br>
+			<input type="radio" name="three" value="c"> <label  id="threec"> </label> </input><br>
+			<input type="radio" name="three" value="d"> <label  id="threed"> </label> </input><br>
+			<br><br>
+	4)	<label id="four"> </label><br>
+			<input type="radio" name="four" value="a"> <label  id="foura"> </label> </input><br>
+			<input type="radio" name="four" value="b"> <label  id="fourb"> </label> </input><br>
+			<input type="radio" name="four" value="c"> <label  id="fourc"> </label> </input><br>
+			<input type="radio" name="four" value="d"> <label  id="fourd"> </label> </input><br>
+			<br><br>
+	5)	<label id="five"> </label><br>
+			<input type="radio" name="five" value="a"> <label  id="fivea"> </label> </input><br>
+			<input type="radio" name="five" value="b"> <label  id="fiveb"> </label> </input><br>
+			<input type="radio" name="five" value="c"> <label  id="fivec"> </label> </input><br>
+			<input type="radio" name="five" value="d"> <label  id="fived"> </label> </input><br>
+			<br><br>
+		<center> <input type="submit" class="btn btn-success"/> </center>
+	</form>
+	<script>
+		function answerdb()
+		{
+			try
+			{
+				var x = document.querySelector('input[name = "one"]:checked').value;
+			    //alert(x);
+				var sans_1=fun("one",x);
+				x = document.querySelector('input[name = "two"]:checked').value;
+				var sans_2=fun("two",x);
+				x = document.querySelector('input[name = "three"]:checked').value;
+				var sans_3=fun("three",x);
+				x = document.querySelector('input[name = "four"]:checked').value;
+				var sans_4=fun("four",x);
+				x = document.querySelector('input[name = "five"]:checked').value;
+				var sans_5=fun("five",x);
+				var productModel = Rho.ORM.addModel(function(model)
+				{
+					model.modelName("answers");
+  					model.enable("sync");
+  					model.property("Rollnum","string");
+  					model.property("Subject","string");
+  					model.property("Question","string");
+  					model.property("Status","string");
+  					model.set("partition","user");
+  						model.set("source_id","6");
+				}); 
+    			var productModel = Rho.ORM.getModel("answers");
+    				var state;
+    			if(sans_1==sessionStorage.ans_1)
+    			{
+    				state = true;
+    				alert(sessionStorage.ques_1+"\n Correct");
+    			}
+    			else
+    			{
+    				 state = false ;
+    				 alert(sessionStorage.ques_1+"\n\nWrongly Answered"+"\n\nCorrect Ans: "+sessionStorage.ans_1 );
+    			}
+    			var product = productModel.create({
+  					Rollnum : sessionStorage.susn,
+  					Subject : sessionStorage.selsub,
+  					Question: sessionStorage.ques_1,
+  					Status :  state
+  				});
+  				if(sans_2==sessionStorage.ans_2)
+    			{
+    				alert(sessionStorage.ques_2+"\n Correct");
+    				state = true;
+    			}
+    			else
+    			{
+    				state = false ;
+    				alert(sessionStorage.ques_2+"\n\nWrongly Answered"+"\n\nCorrect Ans: "+sessionStorage.ans_2 );
+    			}
+    			var product = productModel.create({
+  					Rollnum : sessionStorage.susn,
+  					Subject : sessionStorage.selsub,
+  					Question: sessionStorage.ques_2,
+  					Status :  state
+  				});
+  				if(sans_3==sessionStorage.ans_3)
+    			{
+    				alert(sessionStorage.ques_3+"\n Correct");
+    				 state = true;
+    			}
+    			else
+    			{
+    				 state = false ;
+    				 alert(sessionStorage.ques_3+"\n\nWrongly Answered"+"\n\nCorrect Ans: "+sessionStorage.ans_3 );
+    			}
+    			var product = productModel.create({
+  					Rollnum : sessionStorage.susn,
+  					Subject : sessionStorage.selsub,
+  					Question: sessionStorage.ques_3,
+  					Status :  state
+  				});
+  				if(sans_4==sessionStorage.ans_4)
+    			{
+    				alert(sessionStorage.ques_4+"\n Correct");
+    				 state = true;
+    			}
+    			else
+    			{
+    				 state = false ;
+    				 alert(sessionStorage.ques_4+"\n\nWrongly Answered"+"\n\nCorrect Ans: "+sessionStorage.ans_4 );
+    			}
+    			var product = productModel.create({
+  					Rollnum : sessionStorage.susn,
+  					Subject : sessionStorage.selsub,
+  					Question: sessionStorage.ques_4,
+  					Status :  state
+  				});
+  				if(sans_5==sessionStorage.ans_5)
+    			{
+    				alert(sessionStorage.ques_5+"\n Correct");
+    				 state = true;
+    			}
+    			else
+    			{
+    				 state = false ;
+    				 alert(sessionStorage.ques_5+"\n\nWrongly Answered"+"\n\nCorrect Ans: "+ sessionStorage.ans_5);
+    			}
+    			var product = productModel.create({
+  					Rollnum : sessionStorage.susn,
+  					Subject : sessionStorage.selsub,
+  					Question: sessionStorage.ques_5,
+  					Status :  state
+  				});
+  				var productModel = Rho.ORM.getModel("answers");
+				var product = productModel.find("all");
+				//alert(product.length);
+				
+				window.location="score.html";
+			}
+			catch(err)
+			{
+				alert(err);
+				return false;
+			}
+			return false;
+		}
+		function fun(qn,x)
+		{		
+			var id = qn+x;
+			var sans = document.getElementById(id).innerHTML;
+			//alert(sans);
+			return sans;
+		}
+	</script>
+</body>
+
+</html>

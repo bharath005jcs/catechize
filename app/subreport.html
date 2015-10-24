@@ -1,0 +1,130 @@
+<html>
+<head>
+	<script type="text/javascript" charset="utf-8" src="/public/api/rhoapi-modules.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/public/api/rhoapi-modules-ORM.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/public/js/Chart.js"></script>
+<script>
+window.onload = function(){
+
+ var h = sessionStorage.rselsem;
+  document.getElementById("heading").innerHTML = "Subject Wise Report Of "+h+" semester";
+			var tabname = "Sem"+h;
+			var x=h;
+			//alert(x);
+			sessionStorage.studsem=h;
+			var productModel = Rho.ORM.addModel(function(model){
+				model.modelName(tabname);
+				model.enable("sync");
+				model.property("t"+x+"1","string");
+				model.property("t"+x+"2","string");
+				model.property("t"+x+"3","string");
+	 			model.property("t"+x+"4","string");
+				model.property("t"+x+"5","string");
+				model.set("partition","user");
+				model.set("source_id",x);
+			}); 
+			
+			var productModel = Rho.ORM.getModel(tabname);
+			var product = productModel.find("all");
+			//alert(product);
+			var sub = [];
+			if(product!="")
+			{
+				//alert("cmg");
+				sub[0] = product[0].get("t"+x+"1");
+				sub[1] = product[0].get("t"+x+"2");
+				sub[2] = product[0].get("t"+x+"3");
+				sub[3]= product[0].get("t"+x+"4");
+				sub[4] = product[0].get("t"+x+"5");
+			}
+			//alert(sub);
+			var productModel = Rho.ORM.addModel(function(model)
+			{
+				model.modelName("scores");
+  				model.enable("sync");
+  				model.property("Rollnum","string");
+  				model.property("Subject","string");
+  				model.property("Score","integer");
+  				model.set("partition","user");
+  				model.set("source_id","8");
+			}); 
+			var score=[];
+			var length=[];
+ 			var productModel = Rho.ORM.getModel("scores");
+ 			for(i=0;i<5;i++)
+ 			{
+  				var product = productModel.find("all",{
+						conditions: {"Subject":sub[i]}
+      			});
+      			length[i]=product.length;
+      			score[i]=0;
+      			if(length[i]>0)
+      			{
+      				for(j=0;j<product.length;j++)
+      				{
+      					score[i]=parseInt(score[i])+parseInt(product[0].get('Score'));
+      				}
+      				//alert(length[i]);
+      				//alert(score[i]);
+      				score[i] = parseInt(score[i]/length[i]);
+      				//alert(score[i]);
+      			}
+      		}
+      		var product = productModel.find("all",{
+					conditions: {
+								 "Subject": "MixedQuiz"}
+      			});
+			score[i] = score[i]= parseInt(product[0].get('Score'));
+			//alert(score[i]);
+      		var pieData = [
+				{
+					value: parseInt(score[0]),
+					color: "#949FB1",
+					highlight: "#A8B3C5",
+					label: sub[0]
+				},
+				{
+					value:  parseInt(score[1]),
+					color: "#4D5360",
+					highlight: "#616774",
+					label: sub[1]
+				},
+				{
+					value:  parseInt(score[2]),
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: sub[2]
+				},
+				{
+					value:  parseInt(score[3]),
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: sub[3]
+				},
+				{
+					value:  parseInt(score[4]),
+					color: "#46BFBD",
+					highlight: "#5AD3D1",
+					label: sub[4]
+				},
+				
+				{
+					value:  parseInt(score[5]),
+					color:"#01DF74",
+					highlight: "#01DF88",
+					label: "Mixed Quiz"
+				}
+			];
+			var ctx = document.getElementById("chart-area").getContext("2d");
+			window.myPie = new Chart(ctx).Pie(pieData);
+}
+</script>
+</head>
+<body>
+<h1 align="center" id="heading"> </h1>
+<div id="canvas-holder" align="center">
+			<canvas id="chart-area" width="300" height="300"/>
+		</div>
+		<center> (i) Touch to view the subject and score</center>
+</body>
+</html>

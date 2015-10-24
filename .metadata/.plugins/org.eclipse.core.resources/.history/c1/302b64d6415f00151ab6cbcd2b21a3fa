@@ -1,0 +1,38 @@
+<html>
+
+<head>
+<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+<script>
+
+function database
+{
+	sessionStorage.ques=x;
+    sessionStorage.opta=a;
+    sessionStorage.optb=b;
+    sessionStorage.optc=c;
+    sessionStorage.optd=d;
+    sessionStorage.sem=sem;
+    sessionStorage.ans=ans;
+    try 
+	{
+		var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+		db.startTransaction();
+		var data = db.isTableExist(sem);
+		
+	}
+	catch (err)
+	{
+		alert(err);
+	}
+    
+}
+
+</script>
+
+</head>
+
+<body onload="database()">
+
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+function  noCommitDrop()
+{
+ var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+  db.startTransaction();
+  db.executeBatchSql('DROP TABLE IF EXISTS Employee; CREATE TABLE Employee(x INTEGER, y TEXT)')  ;
+ db.commitTransaction();
+ db.startTransaction();
+ db.destroyTable('Employee');
+ var data=db.isTableExist('Employee');
+ alert(data);
+
+}
+
+function  checkNoCommitDrop()
+{
+  var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+  var value=db.isTableExist('Employee');
+ var data=db.isTableExist('Employee');
+ alert(data);
+ if(data==true)
+ {
+ 	alert("No");
+ }
+ else
+ {
+	 alert("Yes");
+ }
+
+}
+
+function  noCommitCreate(){
+
+ var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+ db.startTransaction();
+ db.executeBatchSql('DROP TABLE IF EXISTS Employees; CREATE TABLE Employees(x INTEGER, y TEXT)')  ;
+ db.destroyTable('Employee');
+ var data=db.isTableExist('Employees');
+ 
+}
+
+function  checkNoCommitCreate(){
+	//alert("cmg");
+  var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+  var data =db.isTableExist('Employees');
+  if(data==true)
+  {
+  	alert("Yes");
+  }
+  else
+  {
+ 	 alert("No");
+  }
+
+
+ }	
+ 
+function batchArgs()
+{
+ var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+ db.executeBatchSql('DROP TABLE IF EXISTS t27; CREATE TABLE t27 (x INTEGER, y TEXT); INSERT INTO t27(x,y) VALUES(?,?)',[10,'ten'],function(tx, result) {}, null); 
+ var h = db.executeSql('SELECT * FROM t27');
+ //show the values stored
+ for (var k in h) {
+     // use hasOwnProperty to filter out keys from the Object.prototype
+     if (h.hasOwnProperty(k)) {
+    	 var out='';
+    	 for(var p in h[k])
+    	 {
+    		 var l = h[k]
+    		 out += k+' '+ p + ': ' + h[k].p+ '\n';
+    	 }
+    	 alert(out);
+     }
+ }
+ alert(h[0]['x'].toString());
+ var keys = Object.keys(h);
+ var key2 = Object.keys(h[0]);
+// var vals = Object.values(h[0]['x']);
+ 
+ alert("key length: "+ keys.length);
+ alert("Secondary keys : "+key2.length);
+// alert ("values: "+ vals.length);
+ }

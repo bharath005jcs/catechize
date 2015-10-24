@@ -1,0 +1,86 @@
+<html>
+
+<head>
+<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+<script type="text/javascript" charset="utf-8" src="/public/api/rhoapi-modules-ORM.js"></script>
+<script>
+
+function database()
+{
+	var q=sessionStorage.ques;
+    var a=sessionStorage.opta;
+    var b=sessionStorage.optb;
+    var c=sessionStorage.optc;
+    var d=sessionStorage.optd;
+    var sem=sessionStorage.sem;
+    var ans=sessionStorage.ans;
+    var sub=sessionStorage.sub;
+    var expl=sessionStorage.expl;
+    var x=sem;
+    var tab = "Sem"+sem;
+    try 
+	{
+		var productModel = Rho.ORM.addModel(function(model){
+			model.modelName(tab);
+	  		model.enable("sync");
+	  		model.property("t"+x+"1","string");
+	  		model.property("t"+x+"2","string");
+	  		model.property("t"+x+"3","string");
+	 		model.property("t"+x+"4","string");
+	  		model.property("t"+x+"5","string");
+	  		model.set("partition","user");
+	  		model.set("source_id",sem);
+		}); 
+		var productModel = Rho.ORM.getModel(tab);
+		var product = productModel.find("all");
+		var col = "t"+x+sub;
+		var id= sem+sub;
+		//alert(id);
+		sessionStorage.id=id;
+		var ntab = product[0].get(col);
+		//alert(ntab);
+		var productModel = Rho.ORM.addModel(function(model){
+			model.modelName(ntab);
+	  		model.enable("sync");
+	  		model.property("Question","string");
+	  		model.property("Option_A","string");
+	  		model.property("Option_B","string");
+	 		model.property("Option_C","string");
+	  		model.property("Option_D","string");
+	  		model.property("Answer","string");
+	  		model.property("Expln","string");
+	  		model.set("partition","user");
+	  		model.set("source_id",id);
+		});
+		var productModel = Rho.ORM.getModel(ntab);
+    	var product = productModel.create({
+  			Question: q,
+  			Option_A: a,
+  			Option_B: b,
+  			Option_C: c,
+  			Option_D: d,
+  			Answer: ans,
+  			Expln: expl
+  		}); 
+  		var product = productModel.find("all");
+  		alert(product.length+" th question inserted");
+  		//alert("Question"+ product[0].get('Question') +"\nOption A");
+       	window.location.href="add_ques.html";
+	}
+	catch (err)
+	{
+		alert(err);
+		window.location.href="add_ques.html";
+	}
+    
+}
+
+</script>
+
+</head>
+
+<body onload="database()">
+
+</body>
+
+</html>

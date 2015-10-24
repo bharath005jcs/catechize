@@ -1,0 +1,31 @@
+sdkversion: "5.0.0"
+name: "RhoMobileApplication2"
+version: "1.0"
+vendor: "rhomobile"
+build: "debug"
+applog: "rholog.txt"
+iphone:
+  configuration: "Release"
+  sdk: "iphonesimulator8.1"
+  provisionprofile: 
+  codesignidentity: "iPhone Developer"
+  entitlements: 
+  BundleIdentifier: "com.rhomobile.rhomobileapplication2"
+  BundleURLScheme: "rhomobileapplication2"
+  production:
+    ipa_itunesartwork_image: "./production/iTunesArtwork.png"
+wp8:
+  productid: "413cbe80-f182-0132-5081-40389623a917"
+android:
+	version: 4.4.2
+	emulator: AVD_for_Nexus_4_by_Google
+  manifest_template: "AndroidManifest.erb"
+  version: "2.3.3"
+  logcatFilter: "APP:I StrictMode:I DEBUG:I *:E"
+  capabilities:
+wm: 
+extensions:
+  - rhoconnect-client
+app_type: "rhoelements"
+capabilities:
+sdk: "C:/MotorolaRhoMobileSuite5.0.38/ruby/lib/ruby/gems/1.9.1/gems/rhodes-5.0.38"

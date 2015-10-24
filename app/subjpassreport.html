@@ -1,0 +1,104 @@
+<html>
+<head>
+	<script type="text/javascript" charset="utf-8" src="/public/api/rhoapi-modules.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/public/api/rhoapi-modules-ORM.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/public/js/Chart.js"></script>
+	<script>
+		window.onload = function(){
+		
+  			
+			var h = sessionStorage.selsub;
+			var x = sessionStorage.rselsem;
+			document.getElementById("heading").innerHTML = "Report for "+h;
+			var productModel = Rho.ORM.addModel(function(model)
+			{
+				model.modelName("scores");
+  				model.enable("sync");
+  				model.property("Rollnum","string");
+  				model.property("Subject","string");
+  				model.property("Score","integer");
+  				model.set("partition","user");
+  				model.set("source_id","8");
+			}); 
+			var product5 = productModel.find("all",{
+						conditions: {"Subject":h ,
+									 "Score": 5}
+      		});
+      		//alert(product5.length);
+      		var product4 = productModel.find("all",{
+						conditions: {"Subject":h ,
+									 "Score": 4}
+      		});
+      		//alert(product4.length);
+      		var product3 = productModel.find("all",{
+						conditions: {"Subject":h ,
+									 "Score": 3}
+      		});
+      		//alert(product3.length);
+      		var product2 = productModel.find("all",{
+						conditions: {"Subject":h ,
+									 "Score": 2}
+      		});
+      		//alert(product2.length);
+      		var product1 = productModel.find("all",{
+						conditions: {"Subject":h ,
+									 "Score": 1}
+      		});
+      		//alert(product1.length);
+      		var product0 = productModel.find("all",{
+						conditions: {"Subject":h ,
+									 "Score": 0}
+      		});
+      		//alert(product0.length);
+      		var pieData = [
+				{
+					value: product0.length,
+					color: "#949FB1",
+					highlight: "#A8B3C5",
+					label: "Score"+0
+				},
+				{
+					value:  product1.length,
+					color: "#4D5360",
+					highlight: "#616774",
+					label: "Score"+1
+				},
+				{
+					value:  product2.length,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: "Score"+2
+				},
+				{
+					value:  product3.length,
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "Score"+3
+				},
+				{
+					value:  product4.length,
+					color: "#46BFBD",
+					highlight: "#5AD3D1",
+					label: "Score"+4
+				},
+				
+				{
+					value:  product5.length,
+					color:"#01DF74",
+					highlight: "#01DF88",
+					label: "Score"+5
+				}
+			];
+			var ctx = document.getElementById("chart-area").getContext("2d");
+			window.myPie = new Chart(ctx).Pie(pieData);
+		}
+	</script>
+</head>
+<body>
+<h1 align="center" id="heading"> </h1>
+<div id="canvas-holder" align="center">
+			<canvas id="chart-area" width="300" height="300"/>
+		</div>
+		<center> (i) Touch to view the Count and score</center>
+</body>
+</html>

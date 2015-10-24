@@ -1,0 +1,118 @@
+<html>
+
+<head>
+	<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules-ORM.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../../public/js/subject_id.js"></script>
+	<script>
+		function fn()
+		{
+			try 
+			{
+				var x = sessionStorage.susn;
+				//alert(x);
+				var y = sessionStorage.selsub;
+				
+				//alert(y);
+				if(y!="MixedQuiz")
+				{
+    				sessionStorage.id = getId(y);
+    			
+  					var id = sessionStorage.id;
+					//alert(id);
+    				var productModel = Rho.ORM.addModel(function(model){
+						model.modelName(y);
+	  					model.enable("sync");
+	  					model.property("Question","string");
+	  					model.property("Option_A","string");
+	  					model.property("Option_B","string");
+	 					model.property("Option_C","string");
+	  					model.property("Option_D","string");
+	  					model.property("Answer","string");
+	  					model.property("Expln","string");
+	  					model.set("partition","user");
+	  					model.set("source_id",id);
+					});
+					//alert("cmg");
+					var productModel = Rho.ORM.getModel(y);
+					var product1 = productModel.find("all");
+					
+					var productModel = Rho.ORM.addModel(function(model)
+					{
+						model.modelName("scores");
+  						model.enable("sync");
+  						model.property("Rollnum","string");
+  						model.property("Subject","string");
+  						model.property("Score","integer");
+  						model.set("partition","user");
+  						model.set("source_id","8");
+					});
+					//alert("cmg2");
+					var productModel = Rho.ORM.getModel("scores");
+					var product2 = productModel.find("all",{
+						conditions: {"Rollnum":x ,
+									 "Subject":y}
+      				});
+      			
+      				//alert(product1);
+      				//alert(product2);
+    				if(product1!="" && product2=="")
+    				{
+    					alert("allowed");
+    					window.location="quizpage.html";
+    				}
+    				else
+    				{
+    					if(product1!="")
+    					{
+    						alert("You Hav Already Attended The Quiz");	
+    					}
+	    				else
+   		 				{
+   		 					alert("Quiz Not Ready");
+   		 				}
+   		 				window.location="question.html";
+    				}
+    			}
+    			else
+    			{
+    				var productModel = Rho.ORM.addModel(function(model)
+					{
+						model.modelName("scores");
+  						model.enable("sync");
+  						model.property("Rollnum","string");
+  						model.property("Subject","string");
+  						model.property("Score","integer");
+  						model.set("partition","user");
+  						model.set("source_id","8");
+					});
+					//alert("cmg2");
+					var productModel = Rho.ORM.getModel("scores");
+					var product2 = productModel.find("all",{
+						conditions: {"Rollnum":x ,
+									 "Subject":y}
+      				});
+    				if(product2.length==0)
+    				{
+    					alert("allowed");
+    					window.location="mixquiz.html";
+    					
+    				}
+    				else
+    				{
+    					alert("already attended the quiz");
+    					window.location="question.html";
+    				}
+    			}
+    		}
+    		catch(err)
+    		{
+    			alert(err);
+    		}	
+		}
+	</script>
+</head>
+<body onLoad="fn()">
+
+</body>
+</html>

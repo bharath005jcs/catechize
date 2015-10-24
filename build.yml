@@ -1,0 +1,26 @@
+sdkversion: "4.1.0"
+name: "catechize"
+version: "1.0"
+vendor: "rhomobile"
+build: "debug"
+applog: "rholog.txt"
+iphone:
+  configuration: "Release"
+  sdk: "iphonesimulator7.0"
+  provisionprofile: 
+  codesignidentity: "iPhone Developer"
+  entitlements: 
+  BundleIdentifier: "com.rhomobile.catechize"
+  BundleURLScheme: "catechize"
+  emulatortarget: "iphone"
+wp8:
+  productid: "52ec5b60-0f46-0133-5095-40389623a917"
+android:
+  manifest_template: "AndroidManifest.erb"
+  version: "3.0"
+  capabilities: 
+wm: 
+extensions:
+  - rhoconnect-client
+app_type: "rhoelements"
+capabilities: 

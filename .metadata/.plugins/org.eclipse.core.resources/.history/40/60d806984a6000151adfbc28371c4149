@@ -1,0 +1,115 @@
+<html>
+<head>
+		<script type="text/javascript" charset="utf-8" src="../../public/api/rhoapi-modules.js"></script>
+		<link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">
+		<style>
+			body
+			{
+	    		background: url('/public/images/bg.jpg') fixed;
+	    		background-size: cover;
+	    		padding: 0;
+	   		    margin: 0;
+	   		    color: white;
+			}
+		</style>
+		<script>
+			function savesem()
+			{
+				var x = document.forms["selsem"]["Semester"].value;
+				sessionStorage.ssem = x;
+				if(sessionStorage.ssem == "none")
+				{
+					alert("Select the semester");
+					return false;
+				}
+				else
+				{
+					var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+					db.startTransaction();
+					//alert("cmg");
+					var tab = "Sem"+x;
+					alert(tab);
+					var data = db.isTableExist(tab);
+    				alert(data);
+    				if(data==false)
+    				{
+    					db.executeBatchSql('CREATE TABLE '+tab+' (sub1 TEXT, sub2 TEXT,sub3 TEXT,sub4 TEXT,sub5 TEXT)');
+						if(x==1)
+						{
+							
+						}
+						if(x==2)
+						{
+						
+						}
+						if(x==3)
+						{
+							
+						}
+						if(x==4)
+						{
+						
+						}
+						if(x==5)
+						{
+						
+						}
+						if(x==6)
+						{
+						
+						}
+						if(x==7)
+						{
+							var query = 'INSERT INTO '+tab+' (sub1,sub2,sub3,sub4,sub5) VALUES("Management", "Wireless" ,"Bigdata","Forensics","IOT")';
+							var d = db.executeBatchSql(query);
+						}
+						if(x==8)
+						{
+							
+						}
+					}
+					var query = 'Select * from '+tab;
+					var h = db.executeSql(query);
+    	  			for(var k in h) 
+    	    		{
+        				if (h.hasOwnProperty(k)) 
+        	    		{
+          	 		 		var out='';
+          	 		 		for(var p in h[k])
+          	 		 		{
+          	 					var l = h[k];
+          	 					out += k+' '+ p + ': ' + h[k][p]+ '\n';
+          	 				}
+         					document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + out ;
+         	   			}
+        			}
+				}
+				return false; 
+			}
+		</script>
+</head>
+<body>
+	<form onsubmit="return savesem()" name="selsem">
+		<br> <br> 
+		<div align="center">
+			Semester:  
+			<br><br><br>
+
+      	<select tabindex="5" name="Semester" style="color:black;">
+  	    	<option value="none">--Select--</option>
+    	    <option value="1">I</option>
+        	<option value="2">II</option>
+        	<option value="3">III</option>
+  		    <option value="4">IV</option>
+  	        <option value="5">V</option>
+        	<option value="6">VI</option>
+        	<option value="7">VII</option>
+        	<option value="8">VIII</option>
+      	</select>
+      	<br><br><br><br>
+	  	<input type="submit" class="btn btn-info"></a></li>
+		</div>
+	</form>
+	<p id="aa"> </p>
+</body>
+</html>

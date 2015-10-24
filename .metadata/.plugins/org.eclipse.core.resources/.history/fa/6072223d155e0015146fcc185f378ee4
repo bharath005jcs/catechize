@@ -1,0 +1,49 @@
+function validateForm() 
+{
+    var x = document.forms["myForm"]["fname"].value;
+    var y = document.forms["myForm"]["pwd"].value;
+    if (x == ""  || y == "") 
+    {
+    	if(x=="")
+    	{
+        	alert("Enter UserName");
+        	return false;
+      	}
+   		if (y == "") 
+   		{
+        	alert("Enter Password");
+        	return false;
+    	}
+	}
+	else
+	{
+		try 
+		{
+			var db = new Rho.Database(Rho.Application.databaseFilePath('local'), 'local');
+			db.startTransaction();
+			db.startTransaction();
+			var query = 'SELECT * FROM Staff WHERE ssn=' + x ;
+			alert(query);
+			var h = db.executeSql(query);
+			alert(h[0]["pwd"]);
+    	    for(var k in h) 
+    	    {
+        		if (h.hasOwnProperty(k)) 
+        	    {
+           		 	var out='';
+           		 	for(var p in h[k])
+           		 	{
+           				 var l = h[k];
+           				 out += k+' '+ p + ': ' + h[k][p]+ '\n';
+           			}
+           			alert(out);
+            	}
+        	}
+		}
+		catch (err)
+		{
+			alert(err);
+		}
+		return false;
+	}
+}
